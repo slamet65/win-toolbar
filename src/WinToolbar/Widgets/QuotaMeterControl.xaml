@@ -14,7 +14,14 @@
         <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE701;" FontSize="13" Margin="0,1,6,0" />
         <TextBlock x:Name="SsidText" FontWeight="SemiBold" Text="Tidak ada WiFi" />
         <StackPanel x:Name="UsagePanel" Orientation="Horizontal" Visibility="Collapsed">
+            <!-- Kecepatan saat ini. Lebar tetap supaya isi bar tidak bergeser tiap detik. -->
             <TextBlock Text="↓" Foreground="#6CCB5F" Margin="14,0,3,0" />
+            <TextBlock x:Name="SpeedDownText" MinWidth="62" />
+            <TextBlock Text="↑" Foreground="#60CDFF" Margin="6,0,3,0" />
+            <TextBlock x:Name="SpeedUpText" MinWidth="62" />
+            <!-- Pemakaian sesi. -->
+            <TextBlock Text="Sesi" Foreground="#9A9A9A" Margin="10,0,0,0" />
+            <TextBlock Text="↓" Foreground="#6CCB5F" Margin="6,0,3,0" />
             <TextBlock x:Name="DownText" />
             <TextBlock Text="↑" Foreground="#60CDFF" Margin="10,0,3,0" />
             <TextBlock x:Name="UpText" />

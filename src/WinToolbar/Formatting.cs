@@ -22,6 +22,9 @@ public static class Formatting
         return value.ToString(format, culture) + " " + Units[unit];
     }
 
+    public static string Speed(double bytesPerSecond, CultureInfo? culture = null) =>
+        Bytes((long)Math.Round(bytesPerSecond), culture) + "/s";
+
     public static string Duration(TimeSpan duration)
     {
         if (duration < TimeSpan.Zero) duration = TimeSpan.Zero;

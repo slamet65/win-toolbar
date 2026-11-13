@@ -14,7 +14,7 @@ public partial class QuotaMeterControl : UserControl
         InitializeComponent();
     }
 
-    public void Update(Session? session, bool ssidIsFallback)
+    public void Update(Session? session, double speedDown, double speedUp, bool ssidIsFallback)
     {
         if (session is null)
         {
@@ -25,6 +25,8 @@ public partial class QuotaMeterControl : UserControl
         }
 
         SsidText.Text = session.Ssid;
+        SpeedDownText.Text = Formatting.Speed(speedDown);
+        SpeedUpText.Text = Formatting.Speed(speedUp);
         DownText.Text = Formatting.Bytes(session.BytesDown);
         UpText.Text = Formatting.Bytes(session.BytesUp);
         TotalText.Text = Formatting.Bytes(session.BytesTotal);
@@ -34,7 +36,7 @@ public partial class QuotaMeterControl : UserControl
             ? "Nama WiFi diambil dari profil jaringan karena izin Lokasi Windows mati.\n" +
               "Aktifkan di Settings > Privacy & security > Location agar nama WiFi akurat.\n" +
               "Klik untuk melihat riwayat sesi."
-            : "Pemakaian sejak tersambung ke WiFi ini. Klik untuk melihat riwayat sesi.";
+            : "Kecepatan saat ini, lalu pemakaian sejak tersambung ke WiFi ini.\nKlik untuk melihat riwayat sesi.";
     }
 
     private void OnClick(object sender, MouseButtonEventArgs e) =>

@@ -100,6 +100,33 @@ public class UsageTrackerTests
     }
 
     [Fact]
+    public void Speed_is_bytes_per_second_between_the_last_two_samples()
+    {
+        Tick(new WifiSample("Rumah", 1000, 100));
+        Assert.Equal(0, _tracker.SpeedDown);
+
+        Tick(new WifiSample("Rumah", 5000, 500), seconds: 2);
+
+        Assert.Equal(2000, _tracker.SpeedDown);
+        Assert.Equal(200, _tracker.SpeedUp);
+    }
+
+    [Fact]
+    public void Speed_resets_when_wifi_disconnects_or_changes()
+    {
+        Tick(new WifiSample("Rumah", 0, 0));
+        Tick(new WifiSample("Rumah", 9000, 900));
+
+        Tick(new WifiSample("Hotspot HP", 50_000, 5000));
+        Assert.Equal(0, _tracker.SpeedDown);
+
+        Tick(new WifiSample("Hotspot HP", 51_000, 5100));
+        Tick(null);
+        Assert.Equal(0, _tracker.SpeedDown);
+        Assert.Equal(0, _tracker.SpeedUp);
+    }
+
+    [Fact]
     public void Active_session_is_saved_periodically()
     {
         Tick(new WifiSample("Rumah", 0, 0));

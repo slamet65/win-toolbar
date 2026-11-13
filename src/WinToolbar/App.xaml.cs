@@ -50,7 +50,7 @@ public partial class App : Application
     {
         if (_tracker is null || _monitor is null || _bar is null) return;
         _tracker.Process(_monitor.Read());
-        _bar.QuotaMeter.Update(_tracker.Current, _monitor.SsidIsFallback);
+        _bar.QuotaMeter.Update(_tracker.Current, _tracker.SpeedDown, _tracker.SpeedUp, _monitor.SsidIsFallback);
     }
 
     // Sleep mengakhiri sesi; saat bangun, tick berikutnya membuka sesi baru.

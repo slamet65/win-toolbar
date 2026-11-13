@@ -37,6 +37,10 @@ public sealed class UsageTracker(ISessionStore store, Func<DateTime> now)
 
     public Session? Current { get; private set; }
 
+    /// <summary>Kecepatan saat ini dalam byte per detik, dihitung dari dua pembacaan terakhir.</summary>
+    public double SpeedDown { get; private set; }
+    public double SpeedUp { get; private set; }
+
     /// <param name="sample">null berarti tidak ada WiFi yang tersambung.</param>
     public void Process(WifiSample? sample)
     {
@@ -56,8 +60,17 @@ public sealed class UsageTracker(ISessionStore store, Func<DateTime> now)
         }
         else
         {
-            Current.BytesDown += Delta(sample.BytesDown, _lastDown);
-            Current.BytesUp += Delta(sample.BytesUp, _lastUp);
+            var deltaDown = Delta(sample.BytesDown, _lastDown);
+            var deltaUp = Delta(sample.BytesUp, _lastUp);
+            var seconds = (time - Current.LastUpdated).TotalSeconds;
+            if (seconds > 0)
+            {
+                SpeedDown = deltaDown / seconds;
+                SpeedUp = deltaUp / seconds;
+            }
+
+            Current.BytesDown += deltaDown;
+            Current.BytesUp += deltaUp;
             Current.LastUpdated = time;
             if (time - _lastFlush >= FlushInterval)
                 Flush();
@@ -76,6 +89,8 @@ public sealed class UsageTracker(ISessionStore store, Func<DateTime> now)
 
     public void EndSession()
     {
+        SpeedDown = 0;
+        SpeedUp = 0;
         if (Current is null) return;
         var time = now();
         Current.LastUpdated = time;
