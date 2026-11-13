@@ -1,0 +1,22 @@
+<Window x:Class="WinToolbar.BarWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:widgets="clr-namespace:WinToolbar.Widgets"
+        Title="WinToolbar"
+        WindowStyle="None" ResizeMode="NoResize"
+        ShowInTaskbar="False" ShowActivated="False" Topmost="True"
+        WindowStartupLocation="Manual" Left="0" Top="0"
+        Background="#1F1F1F">
+    <Window.ContextMenu>
+        <ContextMenu>
+            <MenuItem Header="Riwayat sesi" Click="OnHistoryClick" />
+            <MenuItem x:Name="AutoStartItem" Header="Jalan saat startup" IsCheckable="True" Click="OnAutoStartClick" />
+            <Separator />
+            <MenuItem Header="Keluar" Click="OnExitClick" />
+        </ContextMenu>
+    </Window.ContextMenu>
+    <!-- Tiap fitur bar adalah satu UserControl di panel ini. -->
+    <StackPanel x:Name="WidgetPanel" Orientation="Horizontal">
+        <widgets:QuotaMeterControl x:Name="QuotaMeter" />
+    </StackPanel>
+</Window>
